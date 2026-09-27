@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAnunciosRouteImport } from './routes/_authenticated/anuncios'
 import { Route as AuthenticatedCapaRouteImport } from './routes/_authenticated/capa'
 import { Route as AuthenticatedConfiguracoesRouteImport } from './routes/_authenticated/configuracoes'
@@ -47,6 +48,11 @@ const RedefinirSenhaRoute = RedefinirSenhaRouteImport.update({
   id: '/redefinir-senha',
   path: '/redefinir-senha',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedAnunciosRoute = AuthenticatedAnunciosRouteImport.update({
   id: '/anuncios',
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/anuncios': typeof AuthenticatedAnunciosRoute
   '/capa': typeof AuthenticatedCapaRoute
   '/configuracoes': typeof AuthenticatedConfiguracoesRoute
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/anuncios': typeof AuthenticatedAnunciosRoute
   '/capa': typeof AuthenticatedCapaRoute
   '/configuracoes': typeof AuthenticatedConfiguracoesRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/anuncios': typeof AuthenticatedAnunciosRoute
   '/_authenticated/capa': typeof AuthenticatedCapaRoute
   '/_authenticated/configuracoes': typeof AuthenticatedConfiguracoesRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/cadastro'
     | '/login'
     | '/redefinir-senha'
+    | '/admin'
     | '/anuncios'
     | '/capa'
     | '/configuracoes'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/cadastro'
     | '/login'
     | '/redefinir-senha'
+    | '/admin'
     | '/anuncios'
     | '/capa'
     | '/configuracoes'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/cadastro'
     | '/login'
     | '/redefinir-senha'
+    | '/_authenticated/admin'
     | '/_authenticated/anuncios'
     | '/_authenticated/capa'
     | '/_authenticated/configuracoes'
@@ -236,6 +248,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/redefinir-senha'
       preLoaderRoute: typeof RedefinirSenhaRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/anuncios': {
       id: '/_authenticated/anuncios'
@@ -304,6 +323,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAnunciosRoute: typeof AuthenticatedAnunciosRoute
   AuthenticatedCapaRoute: typeof AuthenticatedCapaRoute
   AuthenticatedConfiguracoesRoute: typeof AuthenticatedConfiguracoesRoute
@@ -316,6 +336,7 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAnunciosRoute: AuthenticatedAnunciosRoute,
   AuthenticatedCapaRoute: AuthenticatedCapaRoute,
   AuthenticatedConfiguracoesRoute: AuthenticatedConfiguracoesRoute,
