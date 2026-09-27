@@ -25,7 +25,7 @@ export function GoogleButton() {
     <button
       type="button"
       onClick={async () => {
-        const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/dashboard" === "" ? window.location.origin : window.location.origin });
+        const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/login" });
         if (r.error) toast.error("Não foi possível entrar com Google");
         else if (!r.redirected) window.location.href = "/dashboard";
       }}

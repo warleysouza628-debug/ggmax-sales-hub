@@ -38,7 +38,7 @@ function Landing() {
         <nav className="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
           <a href="#recursos" className="hover:text-foreground transition-colors">Recursos</a>
           <a href="#como-funciona" className="hover:text-foreground transition-colors">Como funciona</a>
-          <Link to="/planos" className="hover:text-foreground transition-colors">Planos</Link>
+          <a href="#planos" className="hover:text-foreground transition-colors">Planos</a>
         </nav>
         <div className="flex items-center gap-2">
           <Button asChild variant="ghost" size="sm"><Link to="/login">Entrar</Link></Button>
