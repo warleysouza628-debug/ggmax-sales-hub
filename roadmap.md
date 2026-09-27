@@ -1,0 +1,13 @@
+# GGMax AdMaker roadmap
+- [ ] Design system (dark premium, glass)
+- [ ] Landing page
+- [ ] Auth (login/cadastro/Google)
+- [ ] Banco: profiles, roles, categories, ads, covers, favorites, credits, settings
+- [ ] App shell com sidebar + créditos
+- [ ] Dashboard
+- [ ] Criar anúncio (título/descrição IA, preview)
+- [ ] Criar capa (IA) + editor simples
+- [ ] Meus anúncios / Favoritos / Histórico
+- [ ] Planos (sem pagamento real)
+- [ ] Configurações
+- [ ] Admin
