@@ -285,7 +285,7 @@ function Range({ label, v, min, max, on }: { label: string; v: number; min: numb
   return (
     <div className="space-y-2">
       <div className="flex justify-between text-xs text-muted-foreground"><span>{label}</span><span className="font-mono">{v}</span></div>
-      <Slider value={[v]} min={min} max={max} step={1} onValueChange={([x]) => on(x)} />
+      <Slider value={[v]} min={min} max={max} step={1} onValueChange={([x]) => on(x ?? v)} />
     </div>
   );
 }

@@ -175,7 +175,7 @@ function AiSettings() {
           </div>
         ))}
       </div>
-      {[["prompt_title", "Prompt do título"], ["prompt_description", "Prompt da descrição"], ["prompt_cover", "Configurações da capa"]].map(([k, l]) => (
+      {([["prompt_title", "Prompt do título"], ["prompt_description", "Prompt da descrição"], ["prompt_cover", "Configurações da capa"]] as const).map(([k, l]) => (
         <div key={k} className="space-y-1.5"><Label>{l}</Label><Textarea rows={4} value={s[k] ?? ""} onChange={(e) => setS({ ...s, [k]: e.target.value })} /></div>
       ))}
       <Button variant="hero" onClick={save}>Salvar configurações</Button>
