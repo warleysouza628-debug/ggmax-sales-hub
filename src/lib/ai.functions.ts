@@ -123,14 +123,34 @@ export const generateCover = createServerFn({ method: "POST" })
     const remaining = await spend(sb, cost, "Gerar capa");
     try {
       const { generateImage } = await import("./ai.server");
+      const styleDirections: Record<string, string> = {
+        "Gamer profissional": "thumbnail comercial gamer, composição agressiva e limpa, contraste forte, personagem ou elemento principal bem recortado, iluminação cinematográfica e acabamento de agência.",
+        "Premium": "visual premium de e-commerce, sofisticado, poucos elementos, profundidade, brilho controlado e acabamento publicitário de alto padrão.",
+        "Oferta / Promoção": "arte promocional de marketplace, foco imediato no produto e na oferta, hierarquia visual clara, selo de promoção e composição muito legível.",
+        "Dark": "dark gaming elegante, fundo preto profundo, iluminação lateral e detalhes discretos, sem poluição visual.",
+        "Vermelho intenso": "identidade preto, vermelho e branco, energia alta, bordas e luzes vermelhas, estilo de banner profissional de vendedor.",
+        "Azul neon": "paleta azul/ciano neon, atmosfera tecnológica, brilho controlado e composição gamer profissional.",
+        "Roxo neon": "paleta roxa/magenta neon, atmosfera gamer premium, profundidade e iluminação controlada.",
+        "Verde": "paleta verde/preto, energia competitiva, iluminação neon verde e composição comercial.",
+        "Dourado": "preto e dourado premium, sensação de raridade e valor, brilho metálico controlado.",
+        "Anime": "estética anime comercial, personagem em destaque, fundo temático, composição de thumbnail profissional sem aparência genérica de IA.",
+        "Roblox": "estética inspirada em thumbnails de Roblox, formas 3D limpas, personagem/elementos em destaque e composição comercial.",
+        "Futurista": "design sci-fi futurista, profundidade, elementos holográficos discretos e acabamento de publicidade digital.",
+        "Competitivo": "estética de esports, composição dinâmica, alto contraste, foco no produto e energia competitiva.",
+        "Marketplace": "banner de marketplace profissional, produto em primeiro plano, fundo limpo e hierarquia de informação muito clara.",
+      };
+
       const prompt = [
         s.prompt_cover,
-        `Estilo visual: ${data.style}.`,
-        `Produto: ${data.product}. Categoria/jogo: ${data.category}.`,
-        data.mainText ? `Texto principal grande e legível na imagem: "${data.mainText}".` : "Sem texto na imagem.",
-        data.subText ? `Texto secundário menor: "${data.subText}".` : "",
-        "Composição de alta qualidade, cores vibrantes, iluminação cinematográfica, preenchendo todo o quadro.",
-      ].join(" ");
+        `DIREÇÃO DE ARTE: ${styleDirections[data.style] ?? data.style}.`,
+        `PRODUTO: ${data.product}. CATEGORIA/JOGO: ${data.category || "não informado"}.`,
+        data.mainText ? `TEXTO PRINCIPAL: "${data.mainText}". Deve ser curto, grande, perfeitamente legível e integrado como tipografia publicitária profissional.` : "Não invente texto principal.",
+        data.subText ? `TEXTO SECUNDÁRIO: "${data.subText}". Deve ser menor e perfeitamente legível.` : "Não invente texto secundário.",
+        "FORMATO: 16:9 horizontal, aparência de arte criada por um designer gráfico profissional para vender um produto digital.",
+        "DIREÇÃO GERAL: composição publicitária com hierarquia visual clara, recortes limpos, tipografia forte, iluminação controlada, contraste alto, profundidade, elementos bem alinhados e espaço negativo suficiente.",
+        "QUALIDADE: acabamento premium, nítido, profissional, comercial, pronto para anúncio.",
+        "EVITAR: aparência de imagem genérica de IA, excesso de efeitos, fundo caótico, mãos ou rostos deformados, texto ilegível, letras aleatórias, marcas d'água, logos inventados, erros ortográficos e elementos cortados.",
+      ].filter(Boolean).join(" ");
       const b64 = await generateImage(prompt);
       const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
       const path = `${context.userId}/${crypto.randomUUID()}.png`;
