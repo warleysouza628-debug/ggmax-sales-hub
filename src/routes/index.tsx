@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "GGMax AdMaker — Crie anúncios profissionais em segundos" },
-      { name: "description", content: "Transforme informações simples do seu produto em títulos, descrições e capas prontas para publicar na GGMax." },
+      { name: "description", content: "O GGMax AdMaker foi feito para quem está começando na GGMax e quer criar anúncios profissionais sem precisar dominar design, copywriting ou precificação." },
       { property: "og:title", content: "GGMax AdMaker — Crie anúncios profissionais em segundos" },
       { property: "og:description", content: "Títulos, descrições e capas com IA para vendedores da GGMax." },
       { property: "og:type", content: "website" },
@@ -19,12 +19,12 @@ export const Route = createFileRoute("/")({
 });
 
 const features = [
-  { icon: Type, t: "IA para títulos", d: "Gere títulos mais profissionais e claros, dentro do limite de 80 caracteres." },
-  { icon: FileText, t: "IA para descrições", d: "Transforme informações do produto em uma descrição completa e organizada." },
-  { icon: ImageIcon, t: "Gerador de capas", d: "Crie capas 16:9 profissionais para seus anúncios em diversos estilos." },
-  { icon: LayoutGrid, t: "Modelos por categoria", d: "Adapte o anúncio ao tipo de produto: contas, itens, moedas e serviços." },
-  { icon: Copy, t: "Copiar com 1 clique", d: "Copie título, descrição ou o anúncio inteiro instantaneamente." },
-  { icon: History, t: "Histórico", d: "Todos os seus anúncios salvos automaticamente e prontos para reutilizar." },
+  { icon: Type, t: "Criador de anúncios", d: "Preencha os dados do produto e receba título, descrição e estrutura pronta para publicar." },
+  { icon: ImageIcon, t: "Capas com IA", d: "Escolha estilo, paleta, composição, iluminação e textos antes de gerar sua capa 16:9." },
+  { icon: Zap, t: "Calculadora de lucro", d: "Descubra custo, taxas, margem e lucro estimado antes de definir o preço." },
+  { icon: Shield, t: "Analisador de anúncio", d: "Encontre informações faltantes e pontos que podem deixar seu anúncio mais claro." },
+  { icon: LayoutGrid, t: "Modelos por categoria", d: "Fluxos preparados para contas, itens, moedas, serviços, keys e outros produtos digitais." },
+  { icon: History, t: "Histórico", d: "Mantenha anúncios e capas organizados para reutilizar e criar novas versões rapidamente." },
 ];
 
 function Landing() {
@@ -51,14 +51,14 @@ function Landing() {
           <Sparkles className="size-3.5 text-primary" /> Feito para vendedores da GGMax
         </div>
         <h1 className="animate-fade-up mx-auto mt-6 max-w-3xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight text-gradient md:text-7xl [animation-delay:60ms]">
-          Crie anúncios que parecem profissionais em segundos.
+          Seu primeiro anúncio profissional começa aqui.
         </h1>
         <p className="animate-fade-up mx-auto mt-6 max-w-xl text-pretty text-lg text-muted-foreground [animation-delay:120ms]">
           Transforme informações simples do seu produto em títulos, descrições e capas prontas para publicar na GGMax.
         </p>
         <div className="animate-fade-up mt-9 flex flex-wrap items-center justify-center gap-3 [animation-delay:180ms]">
           <Button asChild variant="hero" size="lg">
-            <Link to="/cadastro">Criar meu anúncio <ArrowRight /></Link>
+            <Link to="/cadastro">Começar meu primeiro anúncio <ArrowRight /></Link>
           </Button>
           <Button asChild variant="outline" size="lg">
             <a href="#como-funciona">Ver como funciona</a>
@@ -89,7 +89,7 @@ function Landing() {
       <section id="como-funciona" className="relative z-10 mx-auto max-w-6xl px-6 py-24">
         <div className="max-w-xl">
           <p className="font-mono text-xs uppercase tracking-widest text-primary">Como funciona</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Do produto ao anúncio publicado em 4 passos</h2>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Do produto à publicação sem complicação</h2>
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-4">
           {[
@@ -111,7 +111,7 @@ function Landing() {
         <div className="glass relative overflow-hidden rounded-3xl px-8 py-16 text-center">
           <div className="pointer-events-none absolute inset-0 bg-hero opacity-80" />
           <h2 className="relative text-balance text-3xl font-semibold tracking-tight md:text-5xl">Venda mais rápido com anúncios melhores.</h2>
-          <p className="relative mx-auto mt-4 max-w-md text-muted-foreground">Comece grátis com 42 créditos. Sem cartão de crédito.</p>
+          <p className="relative mx-auto mt-4 max-w-md text-muted-foreground">Crie seu primeiro anúncio, teste as ferramentas e evolua sua loja com mais velocidade.</p>
           <div className="relative mt-8 flex justify-center">
             <Button asChild variant="hero" size="lg"><Link to="/cadastro">Criar meu anúncio <ArrowRight /></Link></Button>
           </div>
