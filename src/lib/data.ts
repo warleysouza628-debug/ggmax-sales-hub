@@ -65,7 +65,22 @@ export function useCategories() {
 
 export const DELIVERY = ["Automática", "Manual", "Imediata", "Até 24 horas"];
 export const DESC_STYLES = ["Profissional", "Direto", "Completo", "Persuasivo"];
-export const COVER_STYLES = ["Gaming", "Premium", "Dark", "Neon", "Minimalista", "Futurista", "Anime", "Marketplace"];
+export const COVER_STYLES = [
+  "Gamer profissional",
+  "Premium",
+  "Oferta / Promoção",
+  "Dark",
+  "Vermelho intenso",
+  "Azul neon",
+  "Roxo neon",
+  "Verde",
+  "Dourado",
+  "Anime",
+  "Roblox",
+  "Futurista",
+  "Competitivo",
+  "Marketplace",
+];
 
 export const brl = (v: number | string | null | undefined) =>
   v == null || v === "" ? "—" : Number(v).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
