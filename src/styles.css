@@ -64,9 +64,9 @@
   --card-foreground: oklch(0.96 0.005 260);
   --popover: oklch(0.19 0.012 260);
   --popover-foreground: oklch(0.96 0.005 260);
-  --primary: oklch(0.72 0.17 235);
-  --primary-glow: oklch(0.82 0.14 195);
-  --primary-foreground: oklch(0.14 0.02 250);
+  --primary: oklch(0.68 0.22 25);
+  --primary-glow: oklch(0.78 0.18 8);
+  --primary-foreground: oklch(0.12 0.015 20);
   --secondary: oklch(0.23 0.014 260);
   --secondary-foreground: oklch(0.94 0.005 260);
   --muted: oklch(0.22 0.012 260);
@@ -79,26 +79,26 @@
   --warning: oklch(0.82 0.15 80);
   --border: oklch(1 0 0 / 8%);
   --input: oklch(1 0 0 / 10%);
-  --ring: oklch(0.72 0.17 235 / 60%);
-  --chart-1: oklch(0.72 0.17 235);
-  --chart-2: oklch(0.82 0.14 195);
-  --chart-3: oklch(0.76 0.16 155);
+  --ring: oklch(0.68 0.22 25 / 60%);
+  --chart-1: oklch(0.68 0.22 25);
+  --chart-2: oklch(0.78 0.18 8);
+  --chart-3: oklch(0.72 0.16 145);
   --chart-4: oklch(0.82 0.15 80);
   --chart-5: oklch(0.64 0.21 25);
   --sidebar: oklch(0.155 0.01 260);
   --sidebar-foreground: oklch(0.9 0.005 260);
-  --sidebar-primary: oklch(0.72 0.17 235);
-  --sidebar-primary-foreground: oklch(0.14 0.02 250);
+  --sidebar-primary: oklch(0.68 0.22 25);
+  --sidebar-primary-foreground: oklch(0.12 0.015 20);
   --sidebar-accent: oklch(1 0 0 / 5%);
   --sidebar-accent-foreground: oklch(0.96 0.005 260);
   --sidebar-border: oklch(1 0 0 / 7%);
-  --sidebar-ring: oklch(0.72 0.17 235 / 60%);
+  --sidebar-ring: oklch(0.68 0.22 25 / 60%);
 
   --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-glow));
   --gradient-text: linear-gradient(180deg, oklch(0.98 0 0), oklch(0.72 0.015 260));
   --gradient-hero: radial-gradient(60% 50% at 50% 0%, oklch(0.72 0.17 235 / 0.18), transparent 70%),
     radial-gradient(40% 40% at 85% 20%, oklch(0.82 0.14 195 / 0.10), transparent 70%);
-  --shadow-glow: 0 0 0 1px oklch(0.72 0.17 235 / 0.35), 0 8px 30px -8px oklch(0.72 0.17 235 / 0.55);
+  --shadow-glow: 0 0 0 1px oklch(0.68 0.22 25 / 0.38), 0 8px 30px -8px oklch(0.68 0.22 25 / 0.55);
   --shadow-card: 0 1px 0 0 oklch(1 0 0 / 5%) inset, 0 20px 40px -24px oklch(0 0 0 / 0.6);
 }
 
