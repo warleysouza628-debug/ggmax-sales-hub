@@ -80,6 +80,10 @@ export const COVER_STYLES = [
   "Futurista",
   "Competitivo",
   "Marketplace",
+  "Minimalista",
+  "Cyberpunk",
+  "Cartoon",
+  "E-sports",
 ];
 
 export const brl = (v: number | string | null | undefined) =>
