@@ -59,12 +59,13 @@ export const generateTitles = createServerFn({ method: "POST" })
     try {
       const { generateText } = await import("./ai.server");
       const out = await generateText(
-        `${s.prompt_title}\nResponda SOMENTE com os 3 títulos, um por linha, sem numeração, sem aspas.`,
+        `REGRAS OBRIGATÓRIAS PARA OS TÍTULOS:\n- Gere 3 opções diferentes, específicas e comerciais.\n- TODOS OS TÍTULOS DEVEM SER 100% EM LETRAS MAIÚSCULAS.\n- Limite absoluto de 80 caracteres por título.\n- Use somente características realmente presentes nos dados.\n- Priorize informações de alto valor comercial: produto, jogo, nível, item, vantagem real e entrega quando relevante.\n- Evite títulos genéricos como "CONTA INCRÍVEL", "PRODUTO TOP", "MELHOR CONTA" ou equivalentes.\n- Não use hashtags, explicações, aspas ou numeração.\n${s.prompt_title || ""}\nResponda SOMENTE com os 3 títulos, um por linha.`,
         productText(data),
       );
       const titles = out
         .split("\n")
         .map((l) => stripEmoji(l.replace(/^[\s\-\d.)*"]+/, "").replace(/"$/, "")))
+        .map((t) => t.toUpperCase().replace(/\s+/g, " ").trim())
         .filter(Boolean)
         .map((t) => (t.length > 80 ? t.slice(0, 80).trim() : t))
         .slice(0, 3);
@@ -86,13 +87,24 @@ export const generateDescription = createServerFn({ method: "POST" })
     try {
       const { generateText } = await import("./ai.server");
       const styleGuide: Record<string, string> = {
-        Profissional: "Tom profissional e confiável, tamanho médio.",
-        Direto: "Curta e direta, apenas o essencial em tópicos.",
-        Completo: "Detalhada e completa, cobrindo todas as seções.",
-        Persuasivo: "Persuasiva, destacando benefícios, sem exageros ou spam.",
+        Profissional: "Tom de vendedor experiente: profissional, humano, claro e confiável.",
+        Direto: "Curta, objetiva e comercial, sem frases genéricas.",
+        Completo: "Detalhada e completa, com estrutura comercial e todas as informações úteis.",
+        Persuasivo: "Persuasiva e natural, destacando benefícios reais sem exageros, spam ou promessas inventadas.",
       };
+
+      const descriptionRules = [
+        "ESCREVA COMO UM VENDEDOR HUMANO EXPERIENTE DA GGMAX, NÃO COMO UMA IA.",
+        "A descrição deve ser específica para o produto e baseada SOMENTE nos dados fornecidos.",
+        "Nunca invente itens, benefícios, garantias, certificações, avaliações, preços, estoque ou condições.",
+        "Estruture de forma natural e comercial, com seções claras quando fizer sentido.",
+        "Inclua, quando os dados permitirem: o que está sendo vendido, principais características, como funciona a entrega, o que acontece após a compra e orientação de suporte.",
+        "Inclua uma seção de compra segura/confiança, enfatizando transparência, suporte e segurança da negociação sem alegar certificações inexistentes.",
+        "Evite clichês como 'produto incrível', 'imperdível', 'a melhor oferta' e textos que poderiam servir para qualquer produto.",
+        "Não use markdown com asteriscos ou hashtags. Pode usar títulos de seção, linhas e emojis moderadamente.",
+      ].join("\n");
       const description = await generateText(
-        `${s.prompt_description}\nEstilo: ${styleGuide[data.style] ?? data.style}\nResponda apenas com o texto da descrição, em texto puro (sem markdown com asteriscos ou #).`,
+        `${descriptionRules}\n${s.prompt_description || ""}\nEstilo: ${styleGuide[data.style] ?? data.style}\nResponda apenas com o texto final da descrição, sem explicar o processo.`,
         `${data.title ? "Título: " + data.title + "\n" : ""}${productText(data)}`,
       );
       return { description: description.replace(/\*\*/g, ""), credits: remaining };
@@ -131,20 +143,24 @@ export const generateCover = createServerFn({ method: "POST" })
     try {
       const { generateImage } = await import("./ai.server");
       const styleDirections: Record<string, string> = {
-        "Gamer profissional": "thumbnail comercial gamer, composição agressiva e limpa, contraste forte, personagem ou elemento principal bem recortado, iluminação cinematográfica e acabamento de agência.",
-        "Premium": "visual premium de e-commerce, sofisticado, poucos elementos, profundidade, brilho controlado e acabamento publicitário de alto padrão.",
-        "Oferta / Promoção": "arte promocional de marketplace, foco imediato no produto e na oferta, hierarquia visual clara, selo de promoção e composição muito legível.",
-        "Dark": "dark gaming elegante, fundo preto profundo, iluminação lateral e detalhes discretos, sem poluição visual.",
-        "Vermelho intenso": "identidade preto, vermelho e branco, energia alta, bordas e luzes vermelhas, estilo de banner profissional de vendedor.",
-        "Azul neon": "paleta azul/ciano neon, atmosfera tecnológica, brilho controlado e composição gamer profissional.",
-        "Roxo neon": "paleta roxa/magenta neon, atmosfera gamer premium, profundidade e iluminação controlada.",
-        "Verde": "paleta verde/preto, energia competitiva, iluminação neon verde e composição comercial.",
-        "Dourado": "preto e dourado premium, sensação de raridade e valor, brilho metálico controlado.",
-        "Anime": "estética anime comercial, personagem em destaque, fundo temático, composição de thumbnail profissional sem aparência genérica de IA.",
-        "Roblox": "estética inspirada em thumbnails de Roblox, formas 3D limpas, personagem/elementos em destaque e composição comercial.",
-        "Futurista": "design sci-fi futurista, profundidade, elementos holográficos discretos e acabamento de publicidade digital.",
-        "Competitivo": "estética de esports, composição dinâmica, alto contraste, foco no produto e energia competitiva.",
-        "Marketplace": "banner de marketplace profissional, produto em primeiro plano, fundo limpo e hierarquia de informação muito clara.",
+        "Gamer profissional": "DIREÇÃO DE ARTE DE THUMBNAIL GAMER PROFISSIONAL: composição de campanha comercial feita por designer gráfico humano, personagem ou produto recortado com precisão, fundo construído em camadas, tipografia editorial forte, profundidade e contraste controlado.",
+        "Premium": "DIREÇÃO DE ARTE PREMIUM: estética de publicidade de alto padrão, composição minimalista e sofisticada, materiais realistas, iluminação de estúdio, tipografia elegante e muito espaço negativo.",
+        "Oferta / Promoção": "DIREÇÃO DE ARTE DE CAMPANHA COMERCIAL: hierarquia visual imediata, produto dominante, preço/oferta somente se fornecido, selo discreto e acabamento de peça publicitária real.",
+        "Dark": "DIREÇÃO DE ARTE DARK GAMING: fundo escuro sofisticado, luz lateral, recortes limpos, contraste cinematográfico e poucos elementos, como uma peça feita em Photoshop por designer.",
+        "Vermelho intenso": "DIREÇÃO DE ARTE GAMER PRETO/VERMELHO/BRANCO: composição energética, grafismos geométricos, luz vermelha controlada e tipografia forte de campanha.",
+        "Azul neon": "DIREÇÃO DE ARTE GAMER AZUL/CIANO: visual tecnológico premium, luzes neon controladas, profundidade e grafismos de interface discretos.",
+        "Roxo neon": "DIREÇÃO DE ARTE GAMER ROXO/MAGENTA: atmosfera premium, profundidade, iluminação de recorte e composição equilibrada de thumbnail comercial.",
+        "Verde": "DIREÇÃO DE ARTE COMPETITIVA VERDE/PRETO: energia esports, recortes limpos, luz verde controlada e composição forte sem poluição.",
+        "Dourado": "DIREÇÃO DE ARTE LUXURY PRETO/DOURADO: aparência sofisticada, detalhes metálicos realistas, iluminação de estúdio e sensação de produto valioso.",
+        "Anime": "DIREÇÃO DE ARTE ANIME PROFISSIONAL: composição inspirada em key art e pôster promocional de anime, personagem bem desenhado e integrado ao layout, fundo temático e tipografia comercial. Evitar estética genérica de imagem gerada por IA.",
+        "Roblox": "DIREÇÃO DE ARTE ROBLOX COMERCIAL: estética de thumbnail profissional, personagens e objetos com aparência 3D limpa, composição dinâmica e tipografia de campanha.",
+        "Futurista": "DIREÇÃO DE ARTE SCI-FI FUTURISTA: composição editorial, profundidade, interfaces e hologramas discretos, iluminação de estúdio e acabamento publicitário.",
+        "Competitivo": "DIREÇÃO DE ARTE ESPORTS: composição dinâmica, personagem/produto em destaque, grafismos profissionais, alto contraste e sensação de campanha competitiva.",
+        "Marketplace": "DIREÇÃO DE ARTE DE MARKETPLACE: produto em primeiro plano, fundo limpo, hierarquia comercial, tipografia extremamente legível e aparência de anúncio produzido profissionalmente.",
+        "Minimalista": "DIREÇÃO DE ARTE MINIMALISTA: poucos elementos, alinhamento preciso, tipografia forte, produto dominante, espaço negativo e acabamento editorial.",
+        "Cyberpunk": "DIREÇÃO DE ARTE CYBERPUNK COMERCIAL: ambiente futurista em camadas, neon controlado, personagem ou produto bem recortado e tipografia de pôster profissional.",
+        "Cartoon": "DIREÇÃO DE ARTE CARTOON COMERCIAL: ilustração limpa, formas bem definidas, cores controladas e composição de campanha, sem aparência de arte automática genérica.",
+        "E-sports": "DIREÇÃO DE ARTE ESPORTS DE ALTO NÍVEL: composição agressiva porém organizada, recortes precisos, grafismos profissionais, iluminação dramática e tipografia de torneio.",
       };
 
       const prompt = [
@@ -156,9 +172,14 @@ export const generateCover = createServerFn({ method: "POST" })
         data.mainText ? `TEXTO PRINCIPAL: "${data.mainText}". Deve ser curto, grande, perfeitamente legível e integrado como tipografia publicitária profissional.` : "Não invente texto principal.",
         data.subText ? `TEXTO SECUNDÁRIO: "${data.subText}". Deve ser menor e perfeitamente legível.` : "Não invente texto secundário.",
         "FORMATO: 16:9 horizontal, aparência de arte criada por um designer gráfico profissional para vender um produto digital.",
-        "DIREÇÃO GERAL: composição publicitária com hierarquia visual clara, recortes limpos, tipografia forte, iluminação controlada, contraste alto, profundidade, elementos bem alinhados e espaço negativo suficiente.",
-        "QUALIDADE: acabamento premium, nítido, profissional, comercial, pronto para anúncio.",
-        "EVITAR: aparência de imagem genérica de IA, excesso de efeitos, fundo caótico, mãos ou rostos deformados, texto ilegível, letras aleatórias, marcas d'água, logos inventados, erros ortográficos e elementos cortados.",
+        "DIREÇÃO GERAL: pense como um DIRETOR DE ARTE + DESIGNER GRÁFICO HUMANO trabalhando em Photoshop/Figma para uma campanha comercial. Construa a peça em camadas: fundo, atmosfera, elemento principal, grafismos, hierarquia tipográfica e acabamento.",
+        "A composição deve parecer deliberadamente desenhada por uma pessoa: alinhamentos precisos, grid visual, escala coerente, contraste intencional, espaço negativo, recortes profissionais e tratamento de cor consistente.",
+        "TIPOGRAFIA: se houver texto, trate-o como lettering publicitário integrado ao layout, grande e perfeitamente legível. Nunca invente palavras, letras ou números.",
+        "QUALIDADE: acabamento de agência de design, nítido, profissional, comercial e pronto para thumbnail de marketplace.",
+        "PROIBIDO VISUAL GENÉRICO DE IA: não produzir arte aleatória, excesso de partículas, brilho exagerado, lens flare gratuito, fundos abstratos sem função, composição caótica ou estética de prompt de IA.",
+        "EVITAR: mãos/rostos deformados, anatomia estranha, objetos duplicados, texto ilegível, letras aleatórias, marcas d'água, logos inventados, erros ortográficos, elementos cortados e aparência de mockup automático.",
+        "REGRA DE IDENTIDADE: a capa deve vender o PRODUTO, não demonstrar que foi feita por IA.",
+        "FORMATO FINAL: 16:9 horizontal, proporção de thumbnail comercial, composição equilibrada nas bordas e área segura para texto."
       ].filter(Boolean).join(" ");
       const b64 = await generateImage(prompt);
       const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
